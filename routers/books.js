@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { addBook, getAllBooks, getBookById } = require("../models/books");
+const verifyToken = require("../middlewares/auth");
 
 router.get("/books", async (req, res) => {
     const books = await getAllBooks();
@@ -12,7 +13,7 @@ router.get("/books/:id", async (req, res) => {
     res.send(book);
 });
 
-router.post("/books", async (req, res) => {
+router.post("/books", verifyToken, async (req, res) => {
     const author = req.body.author;
     const isbn = req.body.isbn;
     const title = req.body.title;
